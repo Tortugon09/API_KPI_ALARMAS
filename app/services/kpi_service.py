@@ -350,7 +350,17 @@ def get_alarms_by_kpi_and_date_last_days_REGION(db: Session, kpi_id: int):
 
     end_date = datetime.now()
     start_date = end_date - timedelta(days=8)
-
+    
+    # Asegúrate de que start_date y end_date sean del tipo datetime
+    if isinstance(start_date, datetime):
+        pass
+    else:
+        start_date = datetime.combine(start_date, datetime.min.time())
+    
+    if isinstance(end_date, datetime):
+        pass
+    else:
+        end_date = datetime.combine(end_date, datetime.min.time())
 
     start_date_str = start_date.strftime('%Y-%m-%d')
     end_date_str = end_date.strftime('%Y-%m-%d')
@@ -421,7 +431,7 @@ def get_alarms_by_kpi_and_date_last_days_REGION(db: Session, kpi_id: int):
 
 
         alarms_for_date = [
-            {"alarm_id": alarm.id, "fecha": alarm.fecha}
+            {"alarm_id": alarm.alarma_id, "fecha": alarm.fecha}
             for alarm in all_alarms if alarm.region_kpi == rkpi.id
         ]
 
@@ -437,7 +447,7 @@ def get_alarms_by_kpi_and_date_last_days_REGION(db: Session, kpi_id: int):
 def get_alarms_by_kpi_last_days(db: Session, kpi_id: int):
 
     end_date = datetime.now()
-    start_date = end_date - timedelta(days=200)
+    start_date = end_date - timedelta(days=8)
 
 
     start_date_str = start_date.strftime('%Y-%m-%d')

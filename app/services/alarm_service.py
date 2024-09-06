@@ -4,11 +4,9 @@ from models.models import KPI, RegionKPI, MercadoKPI, Alarma, AlarmaMercado, Reg
 def get_markets_and_regions_with_alarms_in_date_range(db: Session, start_date: str, end_date: str):
     from datetime import datetime
 
-    # Convertir las fechas de string a objetos datetime
     start_date = datetime.strptime(start_date, "%Y-%m-%d")
     end_date = datetime.strptime(end_date, "%Y-%m-%d")
 
-    # Obtener todas las regiones y sus alarmas por KPI dentro del rango de fechas
     regions = db.query(Region).all()
     regions_with_alarms = []
     
@@ -38,7 +36,6 @@ def get_markets_and_regions_with_alarms_in_date_range(db: Session, start_date: s
             "kpis": kpis_with_alarms
         })
 
-    # Obtener todos los mercados y sus alarmas por KPI dentro del rango de fechas
     mercados = db.query(Mercado).all()
     mercados_with_alarms = []
     
@@ -74,7 +71,6 @@ def get_markets_and_regions_with_alarms_in_date_range(db: Session, start_date: s
     }
 
 def get_all_markets_and_regions_with_alarms(db: Session):
-    # Obtener todas las regiones y sus alarmas por KPI
     regions = db.query(Region).all()
     regions_with_alarms = []
     
@@ -101,7 +97,6 @@ def get_all_markets_and_regions_with_alarms(db: Session):
             "kpis": kpis_with_alarms
         })
 
-    # Obtener todos los mercados y sus alarmas por KPI
     mercados = db.query(Mercado).all()
     mercados_with_alarms = []
     

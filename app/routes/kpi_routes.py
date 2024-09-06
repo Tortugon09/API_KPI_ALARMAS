@@ -65,22 +65,22 @@ def read_kpi(kpi_id: int, db: Session = Depends(get_db)):
 
 @router.put("/kpis/{kpi_id}", response_model=KPIResponse)
 def update_kpi(kpi_id: int, kpi_update: KPIUpdate, db: Session = Depends(get_db)):
-    # Buscar el KPI existente
+
     db_kpi = db.query(KPI).filter(KPI.id == kpi_id).first()
     if not db_kpi:
         raise HTTPException(status_code=404, detail="KPI not found")
     
-    # Actualizar los campos del KPI
+
     db_kpi.nombre_kpi = kpi_update.nombre_kpi
     if kpi_update.objetivo:
-        # Actualizar el objetivo existente
+
         objetivo = db.query(Objetivo).filter(Objetivo.id == db_kpi.objetivo_id).first()
         if objetivo:
             objetivo.objetivo = kpi_update.objetivo
             db.commit()
             db.refresh(objetivo)
         else:
-            # Crear un nuevo objetivo si no existe
+
             new_objetivo = Objetivo(objetivo=kpi_update.objetivo)
             db.add(new_objetivo)
             db.commit()
@@ -89,10 +89,9 @@ def update_kpi(kpi_id: int, kpi_update: KPIUpdate, db: Session = Depends(get_db)
             db.commit()
             db.refresh(db_kpi)
     
-    # Obtener el objetivo actualizado
     objetivo = db.query(Objetivo).filter(Objetivo.id == db_kpi.objetivo_id).first()
     
-    # Retornar la respuesta
+
     return KPIResponse(
         id=db_kpi.id,
         nombre_kpi=db_kpi.nombre_kpi,

@@ -31,7 +31,7 @@ def get_markets_within_date_range(
     db: Session = Depends(get_db)
 ):
     try:
-        # Validar formato de fechas
+
         datetime.strptime(start_date, "%Y-%m-%d")
         datetime.strptime(end_date, "%Y-%m-%d")
     except ValueError:
@@ -45,7 +45,6 @@ def get_markets(db: Session = Depends(get_db)):
     return mercados
 
 
-# Endpoint para modificar el estado de activo de un mercado
 @router.put("/markets/{market_id}", response_model=Mercado)
 def update_market(market_id: int, market_data: MercadoUpdate, db: Session = Depends(get_db)):
     market = db.query(MercadoModel).filter(MercadoModel.id == market_id).first()
@@ -64,7 +63,6 @@ def create_market(market: MercadoCreate, db: Session = Depends(get_db)):
     db.refresh(new_market)
     return new_market
 
-# Endpoint para eliminar un mercado
 @router.delete("/markets/{market_id}", response_model=dict)
 def delete_market(market_id: int, db: Session = Depends(get_db)):
     market = db.query(MercadoModel).filter(MercadoModel.id == market_id).first()

@@ -17,7 +17,7 @@ def read_markets_and_regions_with_alarms_in_date_range(
     db: Session = Depends(get_db)
 ):
     try:
-        # Validar formato de fechas
+
         datetime.strptime(start_date, "%Y-%m-%d")
         datetime.strptime(end_date, "%Y-%m-%d")
     except ValueError:
